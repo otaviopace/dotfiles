@@ -345,3 +345,8 @@ let g:go_fmt_command = "goimports"
 " ----------------------------------------------------------------------
 
 noremap <C-F> :Ag!<space>
+
+
+" :JSON command to format json
+com! JSON %!python -m json.tool
+
