@@ -34,7 +34,13 @@ sudo pacman -Sy python-pip
 sudo pip install neovim
 ```
 
-**5. Open `neovim` and update the remote plugins;**
+**5. Install `pynvim` `pip` package;**
+
+```shell
+sudo pip install pynvim
+```
+
+**6. Open `neovim` and update the remote plugins;**
 
 ```shell
 nvim
