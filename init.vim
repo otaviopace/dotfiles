@@ -60,7 +60,7 @@ set number
 set ruler
 
 " Turn off line wrapping
-set nowrap
+" set nowrap
 
 " Show 3 lines of context around the cursor.
 set scrolloff=3
@@ -157,7 +157,29 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'crusoexia/vim-dracula'
 
+  " vim completion plugin
+  Plug 'racer-rust/vim-racer'
+
+  " CTags for vim-racer
+  Plug 'webastien/vim-ctags'
+
+  " syntastic for vim-racer
+  Plug 'vim-syntastic/syntastic'
+
+  Plug 'rust-lang/rust.vim'
+
+  Plug 'johngrib/vim-game-code-break'
+
 call plug#end()
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " ----------------------------------------------------------------------
 " | Helper Functions                                                   |
@@ -184,16 +206,16 @@ endfunction
 if has('autocmd')
   " Automatically reload the configurations from the
   " `~/.vimrc` and `~/.gvimrc` files whenever they are changed
-  augroup auto_reload_vim_configs
-    autocmd!
-    autocmd BufWritePost vimrc source $MYVIMRC
-
-    if has('gui_running')
-      autocmd BufWritePost gvimrc source $MYGVIMRC
-    endif
-  augroup END
-
-  " Automatically set the color scheme
+  " augroup auto_reload_vim_configs
+  "   autocmd!
+  "   autocmd BufWritePost vimrc source $MYVIMRC
+  "
+  "   if has('gui_running')
+  "     autocmd BufWritePost gvimrc source $MYGVIMRC
+  "   endif
+  " augroup END
+  "
+  " " Automatically set the color scheme
   augroup set_font
     autocmd!
 
@@ -204,24 +226,30 @@ if has('autocmd')
     let base16colorspace=256
     autocmd BufEnter * colorscheme dracula
   augroup END
-
-  " Use javascript syntax for json files
-  augroup json
-    autocmd!
-    au BufRead,BufNewFile *.json set ft=json syntax=javascript
-  augroup END
-
-  " Automatically strip the trailing whitespaces when files are saved
-  augroup strip_trailing_whitespaces
-    " Exclude markdown as it needs to be aware of whitespaces
-    let excludedFileTypes = [ 'mkd.markdown' ]
-
-    " Only strip the trailing whitespaces if the file type is
-    " not in the excluded file types list
-    autocmd!
-    autocmd BufWritePre * if index(excludedFileTypes, &ft) < 0 | :call StripTrailingWhitespaces()
-  augroup END
+  "
+  " " Use javascript syntax for json files
+  " augroup json
+  "   autocmd!
+  "   au BufRead,BufNewFile *.json set ft=json syntax=javascript
+  " augroup END
+  "
+  " " Automatically strip the trailing whitespaces when files are saved
+  " augroup strip_trailing_whitespaces
+  "   " Exclude markdown as it needs to be aware of whitespaces
+  "   let excludedFileTypes = [ 'mkd.markdown' ]
+  "
+  "   " Only strip the trailing whitespaces if the file type is
+  "   " not in the excluded file types list
+  "   autocmd!
+  "   autocmd BufWritePre * if index(excludedFileTypes, &ft) < 0 | :call StripTrailingWhitespaces()
+  " augroup END
 endif
+
+autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/
+autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
+
+set hidden
+let g:racer_cmd = "/Users/otaviopace/.cargo/bin/racer"
 
 " ----------------------------------------------------------------------
 " | Key Mappings                                                       |
@@ -263,11 +291,11 @@ noremap <C-C> <esc>
 " | Nvim specific
 " ----------------------------------------------------------------------
 
-if has('nvim')
-  " Make ctrl-h great again
-  nmap <BS> <C-W>h
-  nmap <bs> :<c-u>TmuxNavigateLeft<cr>
-endif
+" if has('nvim')
+"   " Make ctrl-h great again
+"   nmap <BS> <C-W>h
+"   nmap <bs> :<c-u>TmuxNavigateLeft<cr>
+" endif
 
 " ----------------------------------------------------------------------
 " | Plugin - Deoplete.nvim
@@ -349,4 +377,3 @@ noremap <C-F> :Ag!<space>
 
 " :JSON command to format json
 com! JSON %!python -m json.tool
-
