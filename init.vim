@@ -170,6 +170,9 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'johngrib/vim-game-code-break'
 
+  " REPL/Jupyter https://github.com/metakirby5/codi.vim
+  Plug 'metakirby5/codi.vim'
+
 call plug#end()
 
 set statusline+=%#warningmsg#
