@@ -158,17 +158,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'crusoexia/vim-dracula'
 
   " vim completion plugin
-  Plug 'racer-rust/vim-racer'
+  " Plug 'racer-rust/vim-racer'
 
   " CTags for vim-racer
-  Plug 'webastien/vim-ctags'
+  " Plug 'webastien/vim-ctags'
 
   " syntastic for vim-racer
   Plug 'vim-syntastic/syntastic'
 
   Plug 'rust-lang/rust.vim'
 
-  Plug 'johngrib/vim-game-code-break'
+  Plug 'wakatime/vim-wakatime'
+
 
 call plug#end()
 
@@ -245,11 +246,11 @@ if has('autocmd')
   " augroup END
 endif
 
-autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/
-autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
+" autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/
+" autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
 
-set hidden
-let g:racer_cmd = "/Users/otaviopace/.cargo/bin/racer"
+" set hidden
+" let g:racer_cmd = "/Users/otaviopace/.cargo/bin/racer"
 
 " ----------------------------------------------------------------------
 " | Key Mappings                                                       |
